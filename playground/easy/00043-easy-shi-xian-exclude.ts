@@ -19,16 +19,18 @@
 */
 
 /* _____________ 你的代码 _____________ */
-
-type MyExclude<T, U> = any
+// 联合类型 extends 是对每一项进行检查
+// 如果是 U 中的类型，则返回 never 排除掉
+type MyExclude<T, U> = T extends U ? never : T
 
 /* _____________ 测试用例 _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
-
 type cases = [
   Expect<Equal<MyExclude<'a' | 'b' | 'c', 'a'>, 'b' | 'c'>>,
   Expect<Equal<MyExclude<'a' | 'b' | 'c', 'a' | 'b'>, 'c'>>,
-  Expect<Equal<MyExclude<string | number | (() => void), Function>, string | number>>,
+  Expect<
+    Equal<MyExclude<string | number | (() => void), Function>, string | number>
+  >
 ]
 
 /* _____________ 下一步 _____________ */
